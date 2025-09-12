@@ -1,0 +1,68 @@
+import { IBilling, IReceptor } from "../interfaces";
+import { createRandomId } from "../services/shared/Utils";
+import { Item } from "./item";
+
+export class Billing implements IBilling{
+    id?: string;
+    receptor: IReceptor;
+    usuario: string;
+    idCierreTurno?: string;
+    tipo_comprobante: string;
+    serie?: string;
+    correlativo?: number;
+    numeracion?: string;
+    fecha_emision?: string;
+    fecha_actual?: string;
+    tipo_moneda?: string;
+    tipo_operacion?: string;
+    tipo_nota?: string;
+    tipo_documento_afectado?: string;
+    numeracion_documento_afectado?: string;
+    motivo_documento_afectado?: string;
+    fecha_documento_afectado?: string;
+    total_gravadas: number;
+    total_igv: number;
+    total_venta: number;
+    monto_letras?: string;
+    cadena_para_codigo_qr?: string;
+    codigo_hash?: string;
+    pdf_bytes?: string;
+    url?: string;
+    errors?: string;
+    comentario?: string;
+    pago_yape: string;
+    pago_tarjeta: string;
+    pago_efectivo: string;
+    billete?: string;
+    estado_nota_despacho?: string;
+    comprobante_nota_despacho?: string;
+    fecha_facturado_nota_despacho?: string;
+    ruc: string;
+    items: Item[];
+    enviado?: boolean;
+    intentos: number;
+    constructor(serie: string, correlativo: number, numeracion: string, receptor: IReceptor, usuario: string, tipo_comprobante: string, total_gravadas: number, total_igv: number, total_venta: number, pago_yape: string, pago_tarjeta: string, pago_efectivo: string, ruc: string, items: Item[], tipo_documento_afectado: string = '', numeracion_documento_afectado: string = '', motivo_documento_afectado: string = '', fecha_emision: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' })){
+        this.id = createRandomId();
+        this.serie = serie;
+        this.correlativo = correlativo;
+        this.numeracion = numeracion;
+        this.fecha_emision = fecha_emision;
+        this.fecha_actual = new Date().toLocaleString('sv-SE', {timeZone: 'America/Lima' });
+        this.receptor = receptor;
+        this.usuario = usuario;
+        this.tipo_comprobante = tipo_comprobante;
+        this.total_gravadas = total_gravadas;
+        this.total_igv = total_igv;
+        this.total_venta = total_venta;
+        this.pago_yape = pago_yape;
+        this.pago_tarjeta = pago_tarjeta;
+        this.pago_efectivo = pago_efectivo;
+        this.ruc = ruc;
+        this.items = items;
+        this.tipo_documento_afectado = tipo_documento_afectado;
+        this.numeracion_documento_afectado = numeracion_documento_afectado;
+        this.motivo_documento_afectado = motivo_documento_afectado;
+        this.enviado = false;
+        this.intentos = 0;
+    }   
+}

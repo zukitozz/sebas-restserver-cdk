@@ -1,0 +1,120 @@
+@url = https://r4pr2pvb3m.execute-api.us-east-2.amazonaws.com/prod
+### Encontrar comprobante
+GET {{url}}/billing?id=c1b1b750-777f-4b23-a45e-b2c11f86cf1e
+Content-Type: application/json
+### Crear comprobante
+POST {{url}}/billing
+Content-Type: application/json
+
+{
+    "serie": "F001",
+    "receptor": {
+        "tipo_documento": "6",
+        "numero_documento": "20100011884",
+        "razon_social": "Empresa de Prueba S.A.C.",
+        "direccion": "calle los girales",
+        "correo": "jorge.castillo.pe@gmail.com"            
+    },
+    "usuario": "jcastillo",
+    "tipo_comprobante": "01",
+    "total_gravadas": 100,
+    "total_igv": 18,
+    "total_venta": 118,
+    "pago_yape": 0,
+    "pago_tarjeta": 0,
+    "pago_efectivo": 128.25,
+    "ruc": "20100011884",
+    "items": [
+        { 
+            "cantidad": 1, 
+            "valor_unitario": 100, 
+            "precio_unitario": 100, 
+            "igv_unitario": 18, 
+            "valor": 100, 
+            "total": 100, 
+            "precio": 100, 
+            "igv": 18, 
+            "descripcion": "Item 1", 
+            "medida": "NIU", 
+            "codigo": "COD" 
+        }
+    ]
+}
+### Listar comprobantes
+GET {{url}}/billing
+Content-Type: application/json
+### Crear comprobante
+POST {{url}}/billing
+Content-Type: application/json
+
+{
+  "serie": "EG10",
+  "remitente": {
+    "tipo_documento": "6",
+    "numero_documento": "20605858601",
+    "razon_social": "GRUPO EMPRESARIAL NONATO E.I.R.L.",
+    "ubigeo": "150101",
+    "direccion": "CAR. PANAMERICANA SUR KM. 87.5 LOTE. 1 LIMA CAÑETE MALA",
+    "correo": "987654321"
+  },
+  "destinatario": {
+    "tipo_documento": "6",
+    "numero_documento": "20612024821",
+    "razon_social": "GRUPO NONATO ANDAHUASI E.I.R.L.",
+    "ubigeo": "150101",
+    "direccion": "CAR. HUAURA SAYAN KM. 40.5 LOTE. 7 SEC. SAN JUAN DE CAÑAS LIMA HUAURA SAYAN",
+    "correo": "987654321"
+  },
+  "conductor": {
+    "usuario": "vquezada",
+    "tipo_documento": "1",
+    "numero_documento": "42629411",
+    "nombres": "Victor Jonathan Quezada Reyna",
+    "licencia": "Q42629411",
+    "nro_registro_mtc": "Q42629411"
+  },
+  "vehiculo": {
+    "placa": "ABC123",
+    "tuc": "TUC123"
+  },
+  "usuario": "jcastillo",
+  "tipo_comprobante": "31",
+  "llegada_direccion": "CAR. HUAURA SAYAN KM. 40.5 LOTE. 7 SEC. SAN JUAN DE CAÑAS LIMA HUAURA SAYAN",
+  "llegada_ubigeo": "150101",
+  "partida_direccion": "AVENIDA NESTOR GAMBETTA 1176",
+  "partida_ubigeo": "240101",
+  "peso_bruto": 100,
+  "ruc": "20100011884",
+  "items": [
+    {
+      "numero": 1,
+      "cantidad": "123",
+      "peso": 0,
+      "codigo_sunat": "GLI",
+      "normalizado": 0,
+      "codigo_partida": "",
+      "codigo": "GLI",
+      "descripcion": "DIESEL B5 S50 UV N SCOP 12517768837"
+    },
+    {
+      "numero": 2,
+      "cantidad": "321",
+      "peso": 0,
+      "codigo_sunat": "GLI",
+      "normalizado": 0,
+      "codigo_partida": "",
+      "codigo": "GLI",
+      "descripcion": "GASOHOL REGULAR N SCOP 12517728035"
+    },
+    {
+      "numero": 3,
+      "cantidad": "222",
+      "peso": 0,
+      "codigo_sunat": "GLI",
+      "normalizado": 0,
+      "codigo_partida": "",
+      "codigo": "GLI",
+      "descripcion": "GASOHOL PREMIUM N SCOP 12517728035"
+    }
+  ]
+}

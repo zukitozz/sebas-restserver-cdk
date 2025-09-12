@@ -1,0 +1,43 @@
+import { IItem } from "./item";
+import { IReceptor } from "./receptor";
+
+export interface IBilling {
+    id?: string;
+    receptor: IReceptor;
+    usuario: string;
+    idCierreTurno?: string;     
+    tipo_comprobante: string;
+    serie?: string;
+    correlativo?: number;
+    numeracion?: string;    
+    fecha_emision?: string;
+    fecha_actual?: string;
+    tipo_moneda?: string;
+    tipo_operacion?: string;
+    tipo_nota?: string;
+    tipo_documento_afectado?: string;
+    numeracion_documento_afectado?: string;
+    motivo_documento_afectado?: string;
+    fecha_documento_afectado?: string;
+    total_gravadas: number;
+    total_igv: number;
+    total_venta: number;
+    monto_letras?: string;
+    cadena_para_codigo_qr?: string;
+    codigo_hash?: string;
+    pdf_bytes?: string;
+    url?: string;
+    errors?: string;
+    comentario?: string;
+    pago_yape: string;
+    pago_tarjeta: string;
+    pago_efectivo: string;
+    billete?: string;
+    estado_nota_despacho?: string;
+    comprobante_nota_despacho?: string;
+    fecha_facturado_nota_despacho?: string;
+    ruc: string;
+    enviado?: boolean;
+    intentos:number;
+    items?: IItem[];  
+}
