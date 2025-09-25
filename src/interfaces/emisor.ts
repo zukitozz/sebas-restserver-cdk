@@ -1,12 +1,11 @@
-export interface IRemitente{
+export interface IEmisor{
     id?: string;
-    direccion: string;
     tipo_documento: string;
     numero_documento: string;
     razon_social: string;
     nombre_comercial: string;
-    token_mifact: string;
     ubigeo: string;
-    correo: string;
-    telefono?: string;    
+    direccion: string;
+    token_mifact: string;
+    correo?: string;
 }

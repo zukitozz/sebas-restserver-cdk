@@ -23,7 +23,9 @@ export const createOrderApiMiFact = async(comprobante: any): Promise<PropsMiFact
         case TipoComprobante.NotaCredito:
             return createBilling(comprobante as IBilling);
         case TipoComprobante.GuiaTransportista:
-            return createGuia(comprobante as ICarrier);            
+            return createGuia(comprobante as ICarrier);         
+        case TipoComprobante.GuiaRemitente:
+            return createGuiaRemitente(comprobante as ICarrier);                  
         default:
             return {
                 hasErrorMiFact: true,
@@ -178,8 +180,8 @@ export const createGuia = async(comprobante: ICarrier): Promise<PropsMiFact> => 
             "TOKEN":"gN8zNRBV+/FVxTLwdaZx0w==", // token del emisor, este token gN8zNRBV+/FVxTLwdaZx0w== es de pruebas
             "RETORNA_XML_ENVIO": "false",
             "RETORNA_XML_CDR": "false",
-            "RETORNA_PDF": "false", 
-            "OBSERVACIONES": "",           
+            "RETORNA_PDF": "true", 
+            "OBSERVACIONES": "ninguna",           
             "COD_TIP_NIF_EMIS": "6",
             "NUM_NIF_EMIS": process.env.EMISOR_RUC,//20100100100            
             // "TOKEN":"tOcEEdPoW/SnZ0lYcWH/eA==", // token del emisor, este token gN8zNRBV+/FVxTLwdaZx0w== es de pruebas
@@ -191,7 +193,7 @@ export const createGuia = async(comprobante: ICarrier): Promise<PropsMiFact> => 
             "COD_UBI_EMIS": process.env.EMISOR_UBIGEO,
             "COD_TIP_GUR": comprobante.tipo_comprobante,
             "NUM_SERIE_GUR": comprobante.serie,
-            "ENVIAR_A_SUNAT": "false",
+            "ENVIAR_A_SUNAT": "true",
             "NUM_CORRE_GUR": comprobante.correlativo,
             "FEC_EMIS_GUR": comprobante.fecha_emision,
             "FEC_TRASLADO": comprobante.fecha_traslado,
@@ -214,6 +216,109 @@ export const createGuia = async(comprobante: ICarrier): Promise<PropsMiFact> => 
             "CONSTANCIA_VEHICULAR_TUC": vehiculo.tuc,
             "DIR_PARTIDA": comprobante.partida_direccion,
             "UBI_PARTIDA": comprobante.partida_ubigeo,
+            "TXT_VERS_UBL":"2.1",
+            "TXT_VERS_ESTRUCT_UBL":"2.0",
+            "COD_PRCD_CARGA":"001",
+            "NRO_REGISTRO_MTC": conductor.nro_registro_mtc,
+            "items": arr_items
+        }
+        const response = await posApi.post(`${process.env.MIFACT_API_GUIA}`, body);
+        const bodyRequest = JSON.stringify(body);
+        if(response.data){
+            return {
+                hasErrorMiFact: false,
+                messageMiFact: 'Comprobante registrado correctamente ',
+                bodyRequest,
+                response: response.data
+            }
+        }else{
+            return {
+                hasErrorMiFact: false,
+                messageMiFact: response.data.errors || 'Comprobante con error ',
+                bodyRequest,
+                response
+            }
+        }
+    } catch (error: any) {
+        console.error("createGuiaApiMifact error: ", error);
+        if ( axios.isAxiosError(error) ) {
+            return {
+                hasErrorMiFact: true,
+                messageMiFact: "createGuiaApiMifact: " + error.response?.data.message,
+                bodyRequest: error,
+                response: null
+            }
+        }
+        return {
+            hasErrorMiFact: true,
+            messageMiFact : 'Error no controlado, hable con el administrador ' + error,
+            bodyRequest: error,
+            response: null
+        }        
+    }
+}
+export const createGuiaRemitente = async(comprobante: ICarrier): Promise<PropsMiFact> => {
+    try {
+        const { remitente, destinatario, conductor, vehiculo, items } = comprobante;
+        var arr_items: any = [] 
+        let iter:number = 0;
+        items.forEach((item:ICarrierItem) => {
+            iter++;
+            arr_items.push(
+                {
+                    "NUM_LINEA": item.numero,
+                    "COD_ITEM": item.codigo,
+                    "DESC_ITEM": item.descripcion,
+                    "CANT_ITEM": item.cantidad,
+                    "PESO_ITEM": item.peso,
+                    "COD_UND_MEDIDA_ITEM": item.medida,
+                    "COD_PRODUCTO_SUNAT": "",
+                    "INDICADOR_BIEN_NORMALIZADO_ITEM": item.normalizado,
+                    "COD_PARTIDA_ARANCELARIA": item.codigo_partida            
+                }
+            )
+        });
+
+        const body = {
+            "TOKEN": remitente.token_mifact, // token del emisor, este token gN8zNRBV+/FVxTLwdaZx0w== es de pruebas
+            "RETORNA_XML_ENVIO": false,
+            "RETORNA_XML_CDR": false,
+            "RETORNA_PDF": true, 
+            "OBSERVACIONES": "ninguna",           
+            "COD_TIP_NIF_EMIS": "6",
+            "NUM_NIF_EMIS": remitente.numero_documento,//20100100100            
+            // "TOKEN":"tOcEEdPoW/SnZ0lYcWH/eA==", // token del emisor, este token gN8zNRBV+/FVxTLwdaZx0w== es de pruebas
+            // "COD_TIP_NIF_EMIS": "6",
+            // "NUM_NIF_EMIS": "20609785269",
+            "NOM_COMER_EMIS": remitente.nombre_comercial,
+            "TXT_DMCL_FISC_EMIS": remitente.direccion,
+            "NOM_RZN_SOC_EMIS": remitente.razon_social,
+            "COD_UBI_EMIS": remitente.ubigeo,
+            "COD_TIP_GUR": comprobante.tipo_comprobante,
+            "NUM_SERIE_GUR": comprobante.serie,
+            "ENVIAR_A_SUNAT": true,
+            "NUM_CORRE_GUR": comprobante.correlativo,
+            "FEC_EMIS_GUR": comprobante.fecha_emision,
+            "COD_TIP_NIF_DEST": destinatario.tipo_documento,
+            "NUM_NIF_DEST": destinatario.numero_documento,
+            "DIR_LLEGADA": comprobante.llegada_direccion,
+            "UBI_LLEGADA": comprobante.llegada_ubigeo,
+            "NOM_RZN_SOC_DEST": destinatario.razon_social,     
+            "MOT_TRASLADO":"01",
+            "IND_TRANSBORDO": false,
+            "PESO_BRUTO": comprobante.peso_bruto,//datos del transporte
+            "UND_MEDIDA": "KGM",
+            "MOD_TRASLADO":"02",
+            "FEC_TRASLADO": comprobante.fecha_traslado,//datos necesario
+            "NUM_NIF_CONDUCT": conductor.numero_documento,
+            "COD_TIP_NIF_CONDUCT": conductor.tipo_documento,
+            "NOM_RZN_SOC_CONDUCT": conductor.nombres,
+            "NRO_LICENCIA_CONDUCT": conductor.licencia,
+            "PLACA": vehiculo.placa,
+            "DIR_PARTIDA": comprobante.partida_direccion,
+            "UBI_PARTIDA": comprobante.partida_ubigeo,
+            "TXT_CORREO_ENVIO": "soporte@mifact.net",//llenar este campo
+            "INDICADOR_M1_L":"0",
             "TXT_VERS_UBL":"2.1",
             "TXT_VERS_ESTRUCT_UBL":"2.0",
             "COD_PRCD_CARGA":"001",

@@ -18,6 +18,8 @@ export async function saveBilling(event: APIGatewayProxyEvent, ddbClient: Dynamo
             return guardarComprobante(ddbClient, bill)
         case TipoComprobante.GuiaTransportista:
             return guardarGuiaTransportista(ddbClient, bill)
+        case TipoComprobante.GuiaRemitente:
+            return guardarGuiaRemitente(ddbClient, bill)
         default:
             return {
                 statusCode: 400,
@@ -27,6 +29,7 @@ export async function saveBilling(event: APIGatewayProxyEvent, ddbClient: Dynamo
 }
 
 async function guardarComprobante(ddbClient: DynamoDBClient, bill: any): Promise<APIGatewayProxyResult>{
+    console.log("guardarComprobante bill");
     validateAsBillingEntry(bill);
     const serie: ISerie = await getCorrelativo(ddbClient, bill.serie);
     if(!serie){
@@ -103,7 +106,49 @@ async function guardarGuiaTransportista(ddbClient: DynamoDBClient, bill: any): P
         }
     }
     const result = await DynamoSupport.callSingleOperation(ddbClient, 'put', params) as PutCommandOutput;
-    console.log("Inserted bill: ", result);
+    console.log("Inserted bill transportista: ", result);
+    return {
+        statusCode: 201,
+        body: JSON.stringify({
+            message: 'Carrier saved successfully',
+            comprobante
+        })  
+    } 
+}
+async function guardarGuiaRemitente(ddbClient: DynamoDBClient, bill: any): Promise<APIGatewayProxyResult>{
+    const serie: ISerie = await getCorrelativo(ddbClient, bill.serie);
+    if(!serie){
+        return {
+            statusCode: 404,
+            body: JSON.stringify('Serie not found')
+        }
+    }
+    const comprobante = new Carrier(
+        serie.serie,
+        serie.correlativo,
+        bill.remitente,
+        bill.destinatario,
+        bill.conductor,
+        bill.vehiculo,
+        bill.usuario,
+        bill.tipo_comprobante,
+        serie.numeracion,
+        bill.llegada_direccion,
+        bill.llegada_ubigeo,
+        bill.partida_direccion,
+        bill.partida_ubigeo,
+        bill.peso_bruto,
+        bill.ruc,
+        bill.items
+    );
+    const params = {
+        TableName: process.env.TABLE_NAME || '',
+        Item: { 
+            ...comprobante
+        }
+    }
+    const result = await DynamoSupport.callSingleOperation(ddbClient, 'put', params) as PutCommandOutput;
+    console.log("Inserted bill remitente: ", result);
     return {
         statusCode: 201,
         body: JSON.stringify({

@@ -6,5 +6,6 @@ export const TipoComprobante = {
     NotaDespacho: "50",
     Calibracion: "51",
     Interno: "52",
-    GuiaTransportista: "31"
+    GuiaTransportista: "31",
+    GuiaRemitente: "09"
 };

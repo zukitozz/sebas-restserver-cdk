@@ -1,5 +1,6 @@
 import { IConductor } from "./conductor";
 import { IDestinatario } from "./destinatario";
+import { IEmisor } from "./emisor";
 import { ICarrierItem } from "./item";
 import { IRemitente } from "./remitente";
 import { IVehiculo } from "./vehiculo";
