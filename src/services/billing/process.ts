@@ -11,9 +11,9 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
   try {
     const params = {
         TableName: process.env.TABLE_NAME || '',
-        FilterExpression: 'enviado = :enviado',
+        FilterExpression: 'etapa = :etapa',
         ExpressionAttributeValues: { 
-            ':enviado': false
+            ':etapa': 'DISPATCH'
         }
     };
     const result = await DynamoSupport.callSingleOperation(ddbClient, 'scan', params);
@@ -24,13 +24,13 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
       const { hasErrorMiFact, messageMiFact, bodyRequest, response } = await createOrderApiMiFact(comprobante);
 
       let updateExpresion = '';
-      updateExpresion = "SET enviado = :enviado, body = :body, respuesta_mifact = :respuesta_mifact, intentos = intentos + :intentos";
+      updateExpresion = "SET etapa = :etapa, body = :body, respuesta_mifact = :respuesta_mifact, intentos = intentos + :intentos";
 
       const params = {
           TableName: process.env.TABLE_NAME || '',
           Key: { id },
           UpdateExpression: updateExpresion,
-          ExpressionAttributeValues: {":enviado": true, ":respuesta_mifact": response, ":body": bodyRequest, ":intentos": 1},
+          ExpressionAttributeValues: {":etapa": 'SENT', ":respuesta_mifact": response, ":body": bodyRequest, ":intentos": 1},
           ConditionExpression: "attribute_exists(id)",
           ReturnValues: "ALL_NEW",
       }

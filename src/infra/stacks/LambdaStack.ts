@@ -38,7 +38,8 @@ export class LambdaStack extends Stack {
                 'dynamodb:PutItem', 
                 'dynamodb:GetItem', 
                 'dynamodb:Scan',
-                'dynamodb:UpdateItem'
+                'dynamodb:UpdateItem',
+                'dynamodb:Query'
             ]
         }));
 
@@ -49,7 +50,8 @@ export class LambdaStack extends Stack {
                 'dynamodb:PutItem', 
                 'dynamodb:GetItem', 
                 'dynamodb:Scan',
-                'dynamodb:UpdateItem'
+                'dynamodb:UpdateItem',
+                'dynamodb:Query'
             ]
         }));
 
