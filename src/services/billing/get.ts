@@ -46,7 +46,8 @@ export async function getBillings(event: APIGatewayProxyEvent, ddbClient: Dynamo
                         body: JSON.stringify('Invalid start key format')
                     };
                 }
-            };         
+            };
+            console.log("Request query: ", params);
             const result = await DynamoSupport.callSingleOperation(ddbClient, 'query', params) as any;
             console.log("Result query: ", result);
             if(!result.Items || result.Items.length === 0){
@@ -57,7 +58,10 @@ export async function getBillings(event: APIGatewayProxyEvent, ddbClient: Dynamo
             }
             return {
                 statusCode: 200,
-                body: JSON.stringify(result.Items)
+                body: JSON.stringify({
+                    items: result.Items,
+                    ...(result.LastEvaluatedKey ? { lastEvaluatedKey: result.LastEvaluatedKey } : {})
+                })
             };
         }else{
             return {

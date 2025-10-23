@@ -38,10 +38,12 @@ export class Billing implements IBilling{
     comprobante_nota_despacho?: string;
     fecha_facturado_nota_despacho?: string;
     ruc: string;
-    items: Item[];
+    detalle: Item[];
     enviado?: boolean;
     intentos: number;
-    constructor(serie: string, correlativo: number, numeracion: string, receptor: IReceptor, usuario: string, tipo_comprobante: string, total_gravadas: number, total_igv: number, total_venta: number, pago_yape: string, pago_tarjeta: string, pago_efectivo: string, ruc: string, items: Item[], tipo_documento_afectado: string = '', numeracion_documento_afectado: string = '', motivo_documento_afectado: string = '', fecha_emision: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' })){
+    etapa: string;
+    transaccion: string;
+    constructor(serie: string, correlativo: number, numeracion: string, receptor: IReceptor, usuario: string, tipo_comprobante: string, total_gravadas: number, total_igv: number, total_venta: number, pago_yape: string, pago_tarjeta: string, pago_efectivo: string, ruc: string, etapa: string, transaccion: string, detalle: Item[], tipo_documento_afectado: string = '', numeracion_documento_afectado: string = '', motivo_documento_afectado: string = '', fecha_emision: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' })){
         this.id = createRandomId();
         this.serie = serie;
         this.correlativo = correlativo;
@@ -58,11 +60,13 @@ export class Billing implements IBilling{
         this.pago_tarjeta = pago_tarjeta;
         this.pago_efectivo = pago_efectivo;
         this.ruc = ruc;
-        this.items = items;
+        this.detalle = detalle;
         this.tipo_documento_afectado = tipo_documento_afectado;
         this.numeracion_documento_afectado = numeracion_documento_afectado;
         this.motivo_documento_afectado = motivo_documento_afectado;
         this.enviado = false;
         this.intentos = 0;
+        this.etapa = etapa;
+        this.transaccion = transaccion;
     }   
 }

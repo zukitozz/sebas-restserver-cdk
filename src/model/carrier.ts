@@ -23,8 +23,10 @@ export class Carrier implements ICarrier{
     ruc: string;
     enviado?: boolean;
     intentos: number;
-    items?: ICarrierItem[];
-    constructor(serie: string, correlativo: number, remitente: IRemitente, destinatario: IDestinatario, conductor: IConductor, vehiculo: IVehiculo, usuario: string, tipo_comprobante: string, numeracion: string, llegada_direccion: string, llegada_ubigeo: string, partida_direccion: string, partida_ubigeo: string, peso_bruto: number, ruc: string, items: ICarrierItem[], fecha_emision: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' }), fecha_traslado: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' })) {
+    etapa: string;
+    transaccion: string;
+    detalle?: ICarrierItem[];
+    constructor(serie: string, correlativo: number, remitente: IRemitente, destinatario: IDestinatario, conductor: IConductor, vehiculo: IVehiculo, usuario: string, tipo_comprobante: string, numeracion: string, llegada_direccion: string, llegada_ubigeo: string, partida_direccion: string, partida_ubigeo: string, peso_bruto: number, ruc: string, etapa: string, transaccion: string, detalle: ICarrierItem[], fecha_emision: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' }), fecha_traslado: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' })) {
         this.id = createRandomId();
         this.remitente = remitente;
         this.destinatario = destinatario;
@@ -44,8 +46,10 @@ export class Carrier implements ICarrier{
         this.partida_ubigeo = partida_ubigeo;
         this.peso_bruto = peso_bruto;
         this.ruc = ruc;
+        this.etapa = etapa;
+        this.transaccion = transaccion;
         this.enviado = false; // Default value
         this.intentos = 0; // Default value
-        this.items = items || [];
+        this.detalle = detalle || [];
     }
 }

@@ -16,7 +16,7 @@ export function validateAsBillingEntry (arg: any){
     if((arg as IBilling).tipo_comprobante === undefined){
         throw new MissingFieldException('tipo_comprobante');
     }
-    if((arg as IBilling).items === undefined || (arg as IBilling).items.length === 0){
-        throw new MissingFieldException('items');
+    if((arg as IBilling).detalle === undefined || (arg as IBilling).detalle.length === 0){
+        throw new MissingFieldException('detalle');
     }        
 }

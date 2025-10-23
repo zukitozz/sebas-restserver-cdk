@@ -24,13 +24,13 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
       const { hasErrorMiFact, messageMiFact, bodyRequest, response } = await createOrderApiMiFact(comprobante);
 
       let updateExpresion = '';
-      updateExpresion = "SET etapa = :etapa, body = :body, respuesta_mifact = :respuesta_mifact, intentos = intentos + :intentos";
+      updateExpresion = "SET enviado = :enviado, etapa = :etapa, body = :body, respuesta_mifact = :respuesta_mifact, intentos = intentos + :intentos";
 
       const params = {
           TableName: process.env.TABLE_NAME || '',
           Key: { id },
           UpdateExpression: updateExpresion,
-          ExpressionAttributeValues: {":etapa": 'SENT', ":respuesta_mifact": response, ":body": bodyRequest, ":intentos": 1},
+          ExpressionAttributeValues: {":enviado": true,":etapa": 'SENT', ":respuesta_mifact": response, ":body": bodyRequest, ":intentos": 1},
           ConditionExpression: "attribute_exists(id)",
           ReturnValues: "ALL_NEW",
       }

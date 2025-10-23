@@ -27,5 +27,7 @@ export interface ICarrier {
     ruc: string;
     enviado?: boolean;
     intentos: number;
-    items?: ICarrierItem[];  
+    etapa: string;
+    transaccion: string;
+    detalle?: ICarrierItem[];  
 }

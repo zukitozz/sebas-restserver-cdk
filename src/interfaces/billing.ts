@@ -39,5 +39,7 @@ export interface IBilling {
     ruc: string;
     enviado?: boolean;
     intentos:number;
-    items?: IItem[];  
+    etapa: string;
+    transaccion: string;
+    detalle?: IItem[];  
 }

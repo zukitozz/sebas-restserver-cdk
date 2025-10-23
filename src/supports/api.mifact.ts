@@ -37,7 +37,7 @@ export const createOrderApiMiFact = async(comprobante: any): Promise<PropsMiFact
 }
 export const createBilling = async(comprobante : IBilling): Promise<PropsMiFact> => {
     try {
-        const { receptor, items } = comprobante;
+        const { receptor, detalle } = comprobante;
         let splitedAfectado = [];
         if (comprobante.numeracion_documento_afectado !== undefined) {
             splitedAfectado =  comprobante.numeracion_documento_afectado.split("-");
@@ -45,7 +45,7 @@ export const createBilling = async(comprobante : IBilling): Promise<PropsMiFact>
 
         var arr_items: any = [] 
 
-        items.forEach((item:IItem) => {
+        detalle.forEach((item:IItem) => {
             arr_items.push(
                 {
                     "COD_ITEM": item.codigo,
@@ -156,10 +156,10 @@ export const createBilling = async(comprobante : IBilling): Promise<PropsMiFact>
 }
 export const createGuia = async(comprobante: ICarrier): Promise<PropsMiFact> => {
     try {
-        const { remitente, destinatario, conductor, vehiculo, items } = comprobante;
+        const { remitente, destinatario, conductor, vehiculo, detalle } = comprobante;
         var arr_items: any = [] 
         let iter:number = 0;
-        items.forEach((item:ICarrierItem) => {
+        detalle.forEach((item:ICarrierItem) => {
             iter++;
             arr_items.push(
                 {
@@ -259,10 +259,10 @@ export const createGuia = async(comprobante: ICarrier): Promise<PropsMiFact> => 
 }
 export const createGuiaRemitente = async(comprobante: ICarrier): Promise<PropsMiFact> => {
     try {
-        const { remitente, destinatario, conductor, vehiculo, items } = comprobante;
+        const { remitente, destinatario, conductor, vehiculo, detalle } = comprobante;
         var arr_items: any = [] 
         let iter:number = 0;
-        items.forEach((item:ICarrierItem) => {
+        detalle.forEach((item:ICarrierItem) => {
             iter++;
             arr_items.push(
                 {

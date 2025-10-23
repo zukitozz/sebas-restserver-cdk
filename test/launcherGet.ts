@@ -19,7 +19,9 @@ process.env.EMISOR_DIR = 'calle los girales 123';
 handler({
     httpMethod: 'GET',
     queryStringParameters: {
-        fecha_emision: '2025-09-25'
+        fecha_emision: '2025-09-25',
+        limit: '2',
+        //start: '{"id":"6b2f86aa-3b36-40f0-b890-d0bd333887f2", "fecha_emision":"2025-09-25", "fecha_actual":"2025-09-25 19:22:02"}',
     }
 } as any, {} as any).then(result => {
     console.log("Result: ", result);

@@ -52,7 +52,9 @@ async function guardarComprobante(ddbClient: DynamoDBClient, bill: any): Promise
         bill.pago_tarjeta, 
         bill.pago_efectivo, 
         bill.ruc,
-        bill.items,
+        bill.etapa,
+        bill.transaccion,
+        bill.detalle,
         bill.tipo_documento_afectado,
         bill.numeracion_documento_afectado,
         bill.motivo_documento_afectado
@@ -97,7 +99,9 @@ async function guardarGuiaTransportista(ddbClient: DynamoDBClient, bill: any): P
         bill.partida_ubigeo,
         bill.peso_bruto,
         bill.ruc,
-        bill.items
+        bill.etapa,
+        bill.transaccion,
+        bill.detalle
     );
     const params = {
         TableName: process.env.TABLE_NAME || '',
@@ -139,7 +143,9 @@ async function guardarGuiaRemitente(ddbClient: DynamoDBClient, bill: any): Promi
         bill.partida_ubigeo,
         bill.peso_bruto,
         bill.ruc,
-        bill.items
+        bill.etapa,
+        bill.transaccion,
+        bill.detalle
     );
     const params = {
         TableName: process.env.TABLE_NAME || '',

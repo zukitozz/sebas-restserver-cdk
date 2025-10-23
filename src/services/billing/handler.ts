@@ -53,12 +53,6 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
       body: JSON.stringify(error.message), 
     }    
   }
-
-  const response: APIGatewayProxyResult = {
-    statusCode: 200,
-    body: JSON.stringify(message), 
-  }
-  return response;
 }
 
 export { handler };
