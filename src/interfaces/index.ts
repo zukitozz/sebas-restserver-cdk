@@ -3,6 +3,7 @@ export * from './carrier';
 export * from './cierre'; 
 export * from './conductor'; 
 export * from './item';
+export * from './producto';
 export * from './receptor';
 export * from './remitente';
 export * from './destinatario';
