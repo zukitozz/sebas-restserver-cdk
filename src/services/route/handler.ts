@@ -1,8 +1,8 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult, Context } from "aws-lambda";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
-import { saveProduct } from "./save";
-import { updateProduct } from "./update";
-import { getProducts } from "./get";
+import { saveRoute } from "./save";
+import { updateRoute } from "./update";
+import { getRoutes } from "./get";
 import { JsonError, MissingFieldException } from "../shared/Validators";
 
 const ddbClient = new DynamoDBClient({});
@@ -17,13 +17,13 @@ async function handler(event: APIGatewayProxyEvent, context: Context): Promise<A
   try {
     switch (event.httpMethod) {
       case 'GET':
-        responseApi = await getProducts(event, ddbClient);
+        responseApi = await getRoutes(event, ddbClient);
         break;
       case 'POST':
-        responseApi = await saveProduct(event, ddbClient);
+        responseApi = await saveRoute(event, ddbClient);
         break;
       case 'PUT':
-        responseApi = await updateProduct(event, ddbClient);
+        responseApi = await updateRoute(event, ddbClient);
         break;
     }
     return {

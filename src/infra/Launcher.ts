@@ -3,7 +3,7 @@ import { DataStack } from "./stacks/DataStack";
 import { LambdaStack } from "./stacks/LambdaStack";
 import { ApiStack } from "./stacks/ApiStack";
 import { LambdaScheduleStack } from "./stacks/LambdaScheduleStack";
-import { LambdaProductStack } from "./stacks/LambdaProductStack";
+import { LambdaRouteStack } from "./stacks/LambdaRouteStack";
 
 const app = new App();
 const dataStack = new DataStack(app, "DataStack");
@@ -29,12 +29,12 @@ const lambdaScheduleStack = new LambdaScheduleStack(app, "LambdaScheduleStack", 
     emisorDireccion: 'Av. Ejemplo 123',
     logRetention: 7
 });
-const lambdaProductStack = new LambdaProductStack(app, "LambdaProductStack", 'product', {
-    productsTables: dataStack.productTable,
+const lambdaRouteStack = new LambdaRouteStack(app, "LambdaRouteStack", 'route', {
+    routesTables: dataStack.routesTable,
     logRetention: 7
 });
 lambdas.push({ name: lambdaStackBilling.name, lambdaIntegration: lambdaStackBilling.moduleLambdaIntegration });
 lambdas.push({ name: lambdaStackUtil.name, lambdaIntegration: lambdaStackUtil.moduleLambdaIntegration });
 lambdas.push({ name: lambdaScheduleStack.name, lambdaScheduleIntegration: lambdaScheduleStack.moduleLambdaIntegration });
-lambdas.push({ name: lambdaProductStack.name, lambdaScheduleIntegration: lambdaProductStack.moduleLambdaIntegration });
+lambdas.push({ name: lambdaRouteStack.name, lambdaScheduleIntegration: lambdaRouteStack.moduleLambdaIntegration });
 new ApiStack(app, "ApiStack", lambdas)

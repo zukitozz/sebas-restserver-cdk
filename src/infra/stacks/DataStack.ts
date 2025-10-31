@@ -7,7 +7,7 @@ import { getSuffixfromStack } from '../Utils';
 export class DataStack extends Stack {
   public readonly spacesTable: ITable;
   public readonly seriesTable: ITable;
-  public readonly productTable: ITable;
+  public readonly routesTable: ITable;
   constructor(scope: Construct, id: string, props?: StackProps) {
     super(scope, id, props);
     const suffix = getSuffixfromStack(this);
@@ -25,12 +25,12 @@ export class DataStack extends Stack {
       },
       tableName: `SeriesTable-${suffix}`
     })
-    this.productTable = new Table(this, 'ProductTable', {
+    this.routesTable = new Table(this, 'RoutesTable', {
       partitionKey: {
         name: 'id',
         type: AttributeType.STRING
       },
-      tableName: `ProductTable`
+      tableName: `RoutesTable`
     })     
   }
 }

@@ -5,22 +5,22 @@ import { PutCommandOutput } from "@aws-sdk/lib-dynamodb";
 import { parseJSON } from "../shared/Utils";
 
 
-export async function saveProduct(event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> {
+export async function saveRoute(event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> {
 
-    const product = parseJSON(event.body);
+    const route = parseJSON(event.body);
     const params = {
-        TableName: process.env.TABLE_PRODUCT || '',
+        TableName: process.env.TABLE_ROUTES || '',
         Item: { 
-            ...product
+            ...route
         }
     }    
     const result = await DynamoSupport.callSingleOperation(ddbClient, 'put', params) as PutCommandOutput;
-    console.log("Inserted product: ", result);
+    console.log("Inserted route: ", result);
     return {
         statusCode: 201,
         body: JSON.stringify({
-            message: 'Product saved successfully',
-            product
+            message: 'Route saved successfully',
+            route
         })  
     }    
 

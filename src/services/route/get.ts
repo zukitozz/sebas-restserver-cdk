@@ -3,20 +3,20 @@ import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoSupport } from "../../supports/dynamo.support";
 import { GetCommandOutput, ScanCommandOutput, QueryCommandInput } from "@aws-sdk/lib-dynamodb";
 
-export async function getProducts(event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> {
+export async function getRoutes(event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> {
 
     if(event.queryStringParameters){
         if ('id' in event.queryStringParameters) {
             const id = event.queryStringParameters.id;
             const params = {
-                TableName: process.env.TABLE_PRODUCT || '',
+                TableName: process.env.TABLE_ROUTES || '',
                 Key: { id }
             }
             const result = await DynamoSupport.callSingleOperation(ddbClient, 'get', params) as any;
             if(!result.Items && result.Items.length === 0){
                 return {
                     statusCode: 404,
-                    body: JSON.stringify(`Product with id ${id} not found`)
+                    body: JSON.stringify(`Route with id ${id} not found`)
                 }
             }
             return {
@@ -27,7 +27,7 @@ export async function getProducts(event: APIGatewayProxyEvent, ddbClient: Dynamo
             const exclusiveStartKey = event.queryStringParameters.start;
             const limit = event.queryStringParameters.limit;
             const params: QueryCommandInput = {
-                TableName: process.env.TABLE_PRODUCT || '',
+                TableName: process.env.TABLE_ROUTES || '',
                 ScanIndexForward: true,
                 Limit: limit ? parseInt(limit) : 10
             };
@@ -47,7 +47,7 @@ export async function getProducts(event: APIGatewayProxyEvent, ddbClient: Dynamo
             if(!result.Items || result.Items.length === 0){
                 return {
                     statusCode: 404,
-                    body: JSON.stringify(`Product not found`)
+                    body: JSON.stringify(`Route not found`)
                 }
             }
             return {

@@ -9,3 +9,7 @@ export const TipoComprobante = {
     GuiaTransportista: "31",
     GuiaRemitente: "09"
 };
+export const EstadoRegistro = {
+    ACTIVO: 1,
+    INACTIVO: 0
+}

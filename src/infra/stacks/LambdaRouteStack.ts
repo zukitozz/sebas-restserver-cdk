@@ -8,37 +8,30 @@ import { Construct } from 'constructs';
 import { join } from 'path';
 
 interface LambdaStackProps extends StackProps {
-    productsTables: ITable;
+    routesTables: ITable;
     logRetention: number;
 }
 
-export class LambdaProductStack extends Stack {
+export class LambdaRouteStack extends Stack {
     public readonly moduleLambdaIntegration: LambdaIntegration
     public readonly name: String
 
     constructor(scope: Construct, id: string, module: string, props: LambdaStackProps) {
-        super(scope, id, {
-            env:{
-                account: 'AKIA5YEXBITPJFQYPONY',
-                region: 'us-east-2',
-            },
-            ...props
-        });
+        super(scope, id, props);
 
         const moduleLambda = new NodejsFunction(this, `${module}Lambda`, {
             runtime: Runtime.NODEJS_LATEST,
             handler: 'handler',
             entry: (join(__dirname, '../..', 'services', module, 'handler.ts')),
             environment: {
-                TABLE_PRODUCT: props.productsTables.tableName
+                TABLE_ROUTES: props.routesTables.tableName
             },
-            functionName: `${module}Lambda`,
             logRetention: props.logRetention
         });
 
         moduleLambda.addToRolePolicy(new PolicyStatement({
             effect: Effect.ALLOW,
-            resources: [props.productsTables.tableArn],
+            resources: [props.routesTables.tableArn],
             actions: [
                 'dynamodb:PutItem', 
                 'dynamodb:GetItem', 
