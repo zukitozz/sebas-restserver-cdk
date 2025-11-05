@@ -36,5 +36,5 @@ const lambdaRouteStack = new LambdaRouteStack(app, "LambdaRouteStack", 'route', 
 lambdas.push({ name: lambdaStackBilling.name, lambdaIntegration: lambdaStackBilling.moduleLambdaIntegration });
 lambdas.push({ name: lambdaStackUtil.name, lambdaIntegration: lambdaStackUtil.moduleLambdaIntegration });
 lambdas.push({ name: lambdaScheduleStack.name, lambdaScheduleIntegration: lambdaScheduleStack.moduleLambdaIntegration });
-lambdas.push({ name: lambdaRouteStack.name, lambdaScheduleIntegration: lambdaRouteStack.moduleLambdaIntegration });
+lambdas.push({ name: lambdaRouteStack.name, lambdaIntegration: lambdaRouteStack.moduleLambdaIntegration });
 new ApiStack(app, "ApiStack", lambdas)

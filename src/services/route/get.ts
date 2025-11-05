@@ -1,7 +1,7 @@
 import { APIGatewayProxyEvent, APIGatewayProxyResult } from "aws-lambda";
 import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { DynamoSupport } from "../../supports/dynamo.support";
-import { GetCommandOutput, ScanCommandOutput, QueryCommandInput } from "@aws-sdk/lib-dynamodb";
+import { ScanCommandOutput, QueryCommandInput } from "@aws-sdk/lib-dynamodb";
 
 export async function getRoutes(event: APIGatewayProxyEvent, ddbClient: DynamoDBClient): Promise<APIGatewayProxyResult> {
 
@@ -42,18 +42,12 @@ export async function getRoutes(event: APIGatewayProxyEvent, ddbClient: DynamoDB
                 }
             };
             console.log("Request query: ", params);
-            const result = await DynamoSupport.callSingleOperation(ddbClient, 'query', params) as any;
+            const result = await DynamoSupport.callSingleOperation(ddbClient, 'scan', params) as any;
             console.log("Result query: ", result);
-            if(!result.Items || result.Items.length === 0){
-                return {
-                    statusCode: 404,
-                    body: JSON.stringify(`Route not found`)
-                }
-            }
             return {
                 statusCode: 200,
                 body: JSON.stringify({
-                    items: result.Items,
+                    items: result,
                     ...(result.LastEvaluatedKey ? { lastEvaluatedKey: result.LastEvaluatedKey } : {})
                 })
             };

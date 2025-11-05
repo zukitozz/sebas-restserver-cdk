@@ -1,4 +1,5 @@
 import { IDestinatario, IOrigen, IRoute } from "../interfaces";
+import { createRandomId } from "../services/shared/Utils";
 import { EstadoRegistro } from "../supports/app.constant";
 
 
@@ -10,7 +11,8 @@ export class Route implements IRoute{
     fecha_crea: string;
     fecha_modifica?: string;
     estado: number;
-    constructor(origen: IOrigen, destino: IDestinatario, precio: number, estado: boolean, fecha_crea: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' })) {
+    constructor(origen: IOrigen, destino: IDestinatario, precio: number) {
+        this.id = createRandomId();
         this.origen = origen;
         this.destino = destino;
         this.precio = precio;
