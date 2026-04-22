@@ -43,7 +43,8 @@ export class Billing implements IBilling{
     intentos: number;
     etapa: string;
     transaccion: string;
-    constructor(serie: string, correlativo: number, numeracion: string, receptor: IReceptor, usuario: string, tipo_comprobante: string, total_gravadas: number, total_igv: number, total_venta: number, pago_yape: string, pago_tarjeta: string, pago_efectivo: string, ruc: string, etapa: string, transaccion: string, detalle: Item[], tipo_documento_afectado: string = '', numeracion_documento_afectado: string = '', motivo_documento_afectado: string = '', fecha_emision: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' })){
+    visibilidad_administrador: number;
+    constructor(serie: string, correlativo: number, numeracion: string, receptor: IReceptor, usuario: string, tipo_comprobante: string, total_gravadas: number, total_igv: number, total_venta: number, pago_yape: string, pago_tarjeta: string, pago_efectivo: string, ruc: string, etapa: string, transaccion: string, visibilidad_administrador: number, detalle: Item[], tipo_documento_afectado: string = '', numeracion_documento_afectado: string = '', motivo_documento_afectado: string = '', fecha_emision: string = new Date().toLocaleString('sv-SE', {dateStyle: 'short', timeZone: 'America/Lima' })){
         this.id = createRandomId();
         this.serie = serie;
         this.correlativo = correlativo;
@@ -68,5 +69,6 @@ export class Billing implements IBilling{
         this.intentos = 0;
         this.etapa = etapa;
         this.transaccion = transaccion;
+        this.visibilidad_administrador = visibilidad_administrador;
     }   
 }

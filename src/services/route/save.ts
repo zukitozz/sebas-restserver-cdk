@@ -16,8 +16,7 @@ export async function saveRoute(event: APIGatewayProxyEvent, ddbClient: DynamoDB
             ...saveRoute
         }
     }    
-    const result = await DynamoSupport.callSingleOperation(ddbClient, 'put', params) as PutCommandOutput;
-    console.log("Inserted route: ", result);
+    await DynamoSupport.callSingleOperation(ddbClient, 'put', params) as PutCommandOutput;
     return {
         statusCode: 201,
         body: JSON.stringify({

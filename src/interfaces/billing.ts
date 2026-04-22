@@ -41,5 +41,6 @@ export interface IBilling {
     intentos:number;
     etapa: string;
     transaccion: string;
+    visibilidad_administrador: number;
     detalle?: IItem[];  
 }

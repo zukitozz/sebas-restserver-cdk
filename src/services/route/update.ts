@@ -21,8 +21,7 @@ export async function updateRoute(event: APIGatewayProxyEvent, ddbClient: Dynamo
         ConditionExpression: 'attribute_exists(id)',
         ReturnValues: 'ALL_NEW',
     }
-    const result = await DynamoSupport.callSingleOperation(ddbClient, 'update', params) as UpdateCommandOutput;
-    console.log("Updated route: ", result);
+    await DynamoSupport.callSingleOperation(ddbClient, 'update', params) as UpdateCommandOutput;
     return {
         statusCode: 200,
         body: JSON.stringify({

@@ -45,8 +45,7 @@ async function updatePrecio(payload: ApproveGuiaRequest, ddbClient: DynamoDBClie
         ConditionExpression: 'attribute_exists(id)',
         ReturnValues: 'ALL_NEW',
     }
-    const result = await DynamoSupport.callSingleOperation(ddbClient, 'update', params) as UpdateCommandOutput;
-    console.log("Updated bill: ", result);
+    await DynamoSupport.callSingleOperation(ddbClient, 'update', params) as UpdateCommandOutput;
 }
 
 async function updateState(transaccion: string, ddbClient: DynamoDBClient): Promise<void>{
@@ -62,7 +61,5 @@ async function updateState(transaccion: string, ddbClient: DynamoDBClient): Prom
         ConditionExpression: 'attribute_exists(transaccion)',
         ReturnValues: 'ALL_NEW',
     }
-    console.log("updateState params: ", params);
-    const result = await DynamoSupport.callSingleOperation(ddbClient, 'update', params) as UpdateCommandOutput;
-    console.log("updateState bill: ", result); 
+    await DynamoSupport.callSingleOperation(ddbClient, 'update', params) as UpdateCommandOutput;
 }

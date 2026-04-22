@@ -25,15 +25,15 @@ export async function getBillings(event: APIGatewayProxyEvent, ddbClient: Dynamo
             }
         }else if('fecha_emision' in event.queryStringParameters){
             const fecha_emision = event.queryStringParameters.fecha_emision;
+            const role = event.queryStringParameters.role;
             const exclusiveStartKey = event.queryStringParameters.start;
             const limit = event.queryStringParameters.limit;
+            const ExpressionAttributeValues = role=='authenticated'?{':fecha_emision': fecha_emision}:{':fecha_emision': fecha_emision,':visibilidad_administrador': 0};
             const params: QueryCommandInput = {
                 TableName: process.env.TABLE_NAME || '',
-                IndexName: 'fecha_emision_index',
-                KeyConditionExpression: 'fecha_emision = :fecha_emision',
-                ExpressionAttributeValues: {
-                    ':fecha_emision': fecha_emision
-                },
+                IndexName: `${role=='authenticated'?'fecha_emision_index':'fecha_emision_visibilidad_administrador'}`,
+                KeyConditionExpression: `fecha_emision = :fecha_emision${role=='authenticated'? '' : ' AND visibilidad_administrador = :visibilidad_administrador'}`,
+                ExpressionAttributeValues,
                 ScanIndexForward: true,
                 Limit: limit ? parseInt(limit) : 10
             };
@@ -47,9 +47,7 @@ export async function getBillings(event: APIGatewayProxyEvent, ddbClient: Dynamo
                     };
                 }
             };
-            console.log("Request query: ", params);
             const result = await DynamoSupport.callSingleOperation(ddbClient, 'query', params) as any;
-            console.log("Result query: ", result);
             if(!result.Items || result.Items.length === 0){
                 return {
                     statusCode: 404,

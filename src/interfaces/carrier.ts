@@ -29,5 +29,6 @@ export interface ICarrier {
     intentos: number;
     etapa: string;
     transaccion: string;
+    visibilidad_administrador: number;
     detalle?: ICarrierItem[];  
 }

@@ -7,9 +7,6 @@ import { JsonError, MissingFieldException } from "../shared/Validators";
 
 const ddbClient = new DynamoDBClient({});
 async function handler(event: APIGatewayProxyEvent, context: Context): Promise<APIGatewayProxyResult> {
-  let message: string = ''
-  console.log("Event: ", event);
-  console.log("Context: ", context);
   let responseApi: APIGatewayProxyResult = {
     statusCode: 0,
     body: ""

@@ -21,7 +21,7 @@ const lambdaStackUtil = new LambdaStack(app, "LambdaUtilStack", 'util', {
 const lambdaScheduleStack = new LambdaScheduleStack(app, "LambdaScheduleStack", 'schedule', {
     spacesTables: dataStack.spacesTable,
     apiMifact: 'https://demo.mifact.net.pe/api/invoiceService.svc/SendInvoice',
-    apiMifactGuia: 'https://demo.mifact.net.pe/api/invoiceService.svc/SendInvoice',
+    apiMifactGuia: 'https://demo.mifact.net.pe/api/GuiaRemision.svc/SendGuia',
     emisorRuc: '20100100100',
     emisorRazonSocial: 'Mi Empresa S.A.C.',
     emisorNombreComercial: 'Mi Empresa',

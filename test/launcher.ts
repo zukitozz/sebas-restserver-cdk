@@ -44,22 +44,3 @@ handler({
     console.log("Result: ", result);
 });
 
-// handler({
-//     httpMethod: 'GET'
-// } as any, {} as any);
-
-// handler({
-//     httpMethod: 'GET',
-//     queryStringParameters: {
-//         id: '217c3937-05e8-47f3-b2ea-32a79440d08a'
-//     }
-// } as any, {} as any);
-
-
-// handler({
-//     httpMethod: 'POST',
-//     url: '/SendInvoice',
-// } as any, {} as any).then(result => {
-//     console.log("Result: ", result);
-// });
-

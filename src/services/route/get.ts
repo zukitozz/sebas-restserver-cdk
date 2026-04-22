@@ -29,7 +29,7 @@ export async function getRoutes(event: APIGatewayProxyEvent, ddbClient: DynamoDB
             const params: QueryCommandInput = {
                 TableName: process.env.TABLE_ROUTES || '',
                 ScanIndexForward: true,
-                Limit: limit ? parseInt(limit) : 10
+                Limit: limit ? +limit : 10
             };
             if (exclusiveStartKey) {
                 try {
@@ -37,13 +37,11 @@ export async function getRoutes(event: APIGatewayProxyEvent, ddbClient: DynamoDB
                 } catch (e) {
                     return {
                         statusCode: 400,
-                        body: JSON.stringify('Invalid start key format')
+                        body: JSON.stringify('Invalid start key format' + e)
                     };
                 }
             };
-            console.log("Request query: ", params);
             const result = await DynamoSupport.callSingleOperation(ddbClient, 'scan', params) as any;
-            console.log("Result query: ", result);
             return {
                 statusCode: 200,
                 body: JSON.stringify({
